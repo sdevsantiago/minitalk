@@ -1,0 +1,9 @@
+# 42 libraries
+lib/Libft
+lib/ft_printf
+
+# C
+.o
+.a
+.out
+.gch

@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:33:10 by sede-san          #+#    #+#             */
-/*   Updated: 2025/04/14 19:19:46 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/04/15 15:55:10 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int main(int argc, char const *argv[])
 	sigemptyset(&close.sa_mask);
 	sigaction(SIGINT, &close, NULL);
 	sigaction(SIGTERM, &close, NULL);
-	sigaction(SIGKILL, &close, NULL);
+	// // sigaction(SIGKILL, &close, NULL);
 
 	printf("Server started with "UNDERLINE"PID"NO_UNDERLINE" %d\n", getpid());
 
@@ -93,7 +93,7 @@ void mt_txhandler(int signum)
 	}
 	else if (signum == SIGENDTX)
 	{
-		printf("I have received the following message \"%s\" of length %d\n", message, ft_strlen(message));
+		printf("I have received the following message \"%s\" of length %zu\n", message, ft_strlen(message));
 		free(message);
 		message = NULL;
 	}

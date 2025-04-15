@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:33:10 by sede-san          #+#    #+#             */
-/*   Updated: 2025/04/15 15:55:10 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/04/15 18:43:58 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ int main(int argc, char const *argv[])
 	tx.sa_handler = mt_txhandler;
 	tx.sa_flags = 0;
 	sigemptyset(&tx.sa_mask);
-	sigaction(SIGSTARTTX, &tx, NULL);
-	sigaction(SIGENDTX, &tx, NULL);
+	sigaction(SIG_BIT0, &tx, NULL);
+	sigaction(SIG_BIT1, &tx, NULL);
 
 	close.sa_handler = mt_closehandler;
 	close.sa_flags = 0;
@@ -74,28 +74,24 @@ int main(int argc, char const *argv[])
 
 /**
  * @brief Handles transmission signals
- * @note SIGSTARTTX is SIGUSR1 and SIGENDTX is SIGUSR2
+ *
+ * @note SIG_BIT0 is SIGUSR1 and SIG_BIT1 is SIGUSR2
  */
 void mt_txhandler(int signum)
 {
-	static char *message;
-	char *character;
+	static char		*message;
+	static char		character_received;
+	static short	bits_remaining;
 
-	if (signum == SIGSTARTTX && !message)
-		message = ft_strdup("");
-	else if (signum == SIGSTARTTX && message)
+	if (!bits_remaining)
+		bits_remaining = 8;
+	if (signum == SIG_BIT0)
+		character_received = character_received << 1;
+	else
+		character_received = (character_received << 1) + 1;
+	if (--bits_remaining == 0)
 	{
-		printf("Received signum %d\n", signum);
-		character = calloc(2, sizeof(char));
-		*character = signum - 1000;
-		message = ft_gnl_strjoin(message, character);
-		free(character);
-	}
-	else if (signum == SIGENDTX)
-	{
-		printf("I have received the following message \"%s\" of length %zu\n", message, ft_strlen(message));
-		free(message);
-		message = NULL;
+		ft_putchar(character_received);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:44:01 by sede-san          #+#    #+#             */
-/*   Updated: 2025/04/15 15:31:50 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/04/15 18:11:01 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@
 # include <signal.h>
 # include <bits/sigaction.h>
 
-# define SIGSTARTTX SIGUSR1
-# define SIGENDTX SIGUSR2
+# define SIG_BIT0 SIGUSR1
+# define SIG_BIT1 SIGUSR2
+
+# define SLEEP_TIME 42/1000
 
 #endif

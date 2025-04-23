@@ -6,14 +6,14 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:33:10 by sede-san          #+#    #+#             */
-/*   Updated: 2025/04/15 18:43:58 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/04/23 03:38:23 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #define UNDERLINE "\033[4m"
 #define	NO_UNDERLINE "\033[24m"
 
-#include "../../include/server.h"
+#include "../../include/minitalk.h"
 
 char	*ft_gnl_strjoin(char *s1, const char *s2)
 {

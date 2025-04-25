@@ -6,7 +6,7 @@
 #    By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 21:23:43 by sede-san          #+#    #+#              #
-#    Updated: 2025/04/23 02:48:18 by sede-san         ###   ########.fr        #
+#    Updated: 2025/04/25 12:58:24 by sede-san         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,35 +40,41 @@ SRC_PATH = src
 SERVER_PATH = $(SRC_PATH)/server
 
 SERVER_SRC = \
-	$(PATH_SERVER)/server.c
+	$(SERVER_PATH)/server.c
 
 CLIENT_PATH = $(SRC_PATH)/client
 
 CLIENT_SRC = \
-	$(PATH_CLIENT)/client.c
+	$(CLIENT_PATH)/client.c
 
 # ********************************** Rules *********************************** #
 
-all: libft ft_printf
-	$(MAKE) server client
+all: libft ft_printf server client
+	$(CC) $(CFLAGS) $(SERVER_OBJ) $(LIBFT) $(LIBFTPRINTF) -o $(SERVER)
+	$(CC) $(CFLAGS) $(CLIENT_OBJ) $(LIBFT) $(LIBFTPRINTF) -o $(CLIENT)
 
-server: $(SRC_SERVER)
-	$(CC) $(SRC_SERVER) $(LIBFT_PATH)/libft.a $(FT_PRINTF_PATH)/libftprintf.a -o $(SERVER_NAME)
+server: $(SERVER_OBJ)
+	ar rcs $(SERVER_PATH)/$(SERVER).a $(SERVER_OBJ)
 
-client: $(SRC_CLIENT)
-	$(CC) $(SRC_CLIENT) $(LIBFT_PATH)/libft.a $(FT_PRINTF_PATH)/libftprintf.a -o $(CLIENT_NAME)
+client: $(CLIENT_OBJ)
+	ar rcs $(CLIENT_PATH)/$(CLIENT).a $(CLIENT_OBJ)
 
 clean:
-	clean:
 	if [ -d $(LIBFT_PATH) ]; then \
 		$(MAKE) -C $(LIBFT_PATH) clean; \
 	fi
 	if [ -d $(LIBFTPRINTF_PATH) ]; then \
 		$(MAKE) -C $(LIBFTPRINTF_PATH) clean; \
 	fi
+	rm -f $(SERVER_OBJ)
+	rm -f $(CLIENT_OBJ)
 
 fclean: clean
 	rm -rf $(LIB_PATH)
+	rm -f $(SERVER)
+	rm -f $(SERVER_PATH)/$(SERVER).a
+	rm -f $(CLIENT)
+	rm -f $(CLIENT_PATH)/$(CLIENT).a
 
 re: fclean all
 

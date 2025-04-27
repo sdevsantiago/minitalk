@@ -6,7 +6,7 @@
 #    By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 21:23:43 by sede-san          #+#    #+#              #
-#    Updated: 2025/04/25 12:58:24 by sede-san         ###   ########.fr        #
+#    Updated: 2025/04/27 22:54:21 by sede-san         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,12 @@ CLIENT = client
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
+
+ifeq ($(DEBUG), lldb)
+	CFLAGS += -g3
+else ifeq  ($(DEBUG), fsanitize)
+	CFLAGS += -fsanitize=address
+endif
 
 # ********************************** Utils *********************************** #
 
@@ -54,10 +60,8 @@ all: libft ft_printf server client
 	$(CC) $(CFLAGS) $(CLIENT_OBJ) $(LIBFT) $(LIBFTPRINTF) -o $(CLIENT)
 
 server: $(SERVER_OBJ)
-	ar rcs $(SERVER_PATH)/$(SERVER).a $(SERVER_OBJ)
 
 client: $(CLIENT_OBJ)
-	ar rcs $(CLIENT_PATH)/$(CLIENT).a $(CLIENT_OBJ)
 
 clean:
 	if [ -d $(LIBFT_PATH) ]; then \

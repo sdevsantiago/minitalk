@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:44:01 by sede-san          #+#    #+#             */
-/*   Updated: 2025/04/23 03:39:02 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/04/27 16:57:14 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # define SYN '\026'
 # define ACK '\006'
 # define EOT '\004'
+
+# define BYTE_SIZE 8
 
 # define SIG_BIT0 SIGUSR1
 # define SIG_BIT1 SIGUSR2

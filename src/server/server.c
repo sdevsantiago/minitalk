@@ -6,69 +6,34 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:33:10 by sede-san          #+#    #+#             */
-/*   Updated: 2025/04/23 03:38:23 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/04/27 23:02:10 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define UNDERLINE "\033[4m"
-#define	NO_UNDERLINE "\033[24m"
-
 #include "../../include/minitalk.h"
 
-char	*ft_gnl_strjoin(char *s1, const char *s2)
+void mt_msghandler(int signum);
+
+int main(void)
 {
-	char	*joined;
-	size_t	s1_len;
-	size_t	s2_len;
-	size_t	i;
-	size_t	j;
+	struct sigaction msghandler;
 
-	if (!s1 || !s2)
-		return (NULL);
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	joined = (char *)malloc(sizeof (*joined) * (s1_len + s2_len + 1));
-	if (!joined)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (s1[i])
-		joined[j++] = s1[i++];
-	i = 0;
-	while (s2[i])
-		joined[j++] = s2[i++];
-	joined[j] = '\0';
-	free((void *)s1);
-	return (joined);
-}
-
-void mt_txhandler(int signum);
-void mt_serverloop(void);
-void mt_closehandler(void);
-
-int main(int argc, char const *argv[])
-{
-	// Transmission
-	struct sigaction tx;
-	// Close
-	struct sigaction close;
-
-	tx.sa_handler = mt_txhandler;
-	tx.sa_flags = 0;
-	sigemptyset(&tx.sa_mask);
-	sigaction(SIG_BIT0, &tx, NULL);
-	sigaction(SIG_BIT1, &tx, NULL);
-
-	close.sa_handler = mt_closehandler;
-	close.sa_flags = 0;
-	sigemptyset(&close.sa_mask);
-	sigaction(SIGINT, &close, NULL);
-	sigaction(SIGTERM, &close, NULL);
-	// // sigaction(SIGKILL, &close, NULL);
-
-	printf("Server started with "UNDERLINE"PID"NO_UNDERLINE" %d\n", getpid());
-
-	mt_serverloop();
+	msghandler.sa_handler = mt_msghandler;
+	msghandler.sa_flags = 0;
+	sigemptyset(&msghandler.sa_mask);
+	int pid = getpid();
+	ft_printf("Server started with "UNDERLINE"PID"NO_UNDERLINE" %d\n", pid);
+	while (1)
+	{
+		if (sigaction(SIG_BIT0, &msghandler, NULL) == -1 ||
+			sigaction(SIG_BIT1, &msghandler, NULL) == -1)
+		{
+			ft_putendl_fd("ERROR: An error ocurred, shutting down",
+				STDERR_FILENO);
+			exit(EXIT_FAILURE);
+		}
+		sleep(2);
+	}
 	return (EXIT_SUCCESS);
 }
 
@@ -77,33 +42,52 @@ int main(int argc, char const *argv[])
  *
  * @note SIG_BIT0 is SIGUSR1 and SIG_BIT1 is SIGUSR2
  */
-void mt_txhandler(int signum)
+void mt_msghandler(int signum)
 {
-	static char		*message;
-	static char		character_received;
-	static short	bits_remaining;
+	static char	character_received;
+	static int	bits_remaining;
+	static int	msg_printed;
+	static int	client_pid;
 
-	if (!bits_remaining)
-		bits_remaining = 8;
+	if (bits_remaining <= 0)
+		bits_remaining = sizeof(unsigned long) * BYTE_SIZE;
 	if (signum == SIG_BIT0)
 		character_received = character_received << 1;
 	else
 		character_received = (character_received << 1) + 1;
 	if (--bits_remaining == 0)
 	{
-		ft_putchar(character_received);
-	}
-}
+		if (!msg_printed)
+		{
+			if (character_received == STX)
+				ft_putstr("Message: [");
+			else if (character_received == ETX)
+			{
+				ft_putendl("]");
+				msg_printed = 1;
+			}
+			else
+				ft_putchar(character_received);
+		}
+		else
+		{
+			if (character_received == STX)
+			{
+				ft_putstr("PID: [");
+				client_pid = 0;
+			}
+			else if (character_received == ETX)
+			{
+				ft_putendl("]");
+				msg_printed = 0;
+				kill(client_pid, SIGUSR2);
+			}
+			else
+			{
+				ft_putchar(character_received);
+				client_pid = client_pid * 10 + ft_atoi(&character_received);
+			}
+		}
 
-void mt_serverloop(void)
-{
-	while (1)
-	{
 	}
-}
-
-void mt_closehandler(void)
-{
-	printf("\rTerminating process\n");
-	exit(EXIT_SUCCESS);
 }

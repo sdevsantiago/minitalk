@@ -6,13 +6,20 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:33:07 by sede-san          #+#    #+#             */
-/*   Updated: 2025/04/23 03:38:13 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/04/27 22:43:49 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minitalk.h"
 
-void	mt_txcharacter(const char c, int pid);
+void	mt_txcharacter(unsigned long c, int pid);
+
+void	mt_etx(int signum)
+{
+	if (signum)
+		ft_putendl("Server has received and printed the message");
+	exit(EXIT_SUCCESS);
+}
 
 int main(int argc, char const *argv[])
 {
@@ -24,10 +31,25 @@ int main(int argc, char const *argv[])
 			EXIT_FAILURE);
 	server_pid = ft_atoi(argv[1]);
 	message = ft_strdup(argv[2]);
+	signal(SIGUSR2, mt_etx);
+	mt_txcharacter((unsigned long)STX, server_pid);
 	while (*message)
 	{
-		mt_txcharacter(*message, server_pid);
+		mt_txcharacter((unsigned long)*message, server_pid);
 		message++;
+	}
+	mt_txcharacter((unsigned long)ETX, server_pid);
+	message = ft_strdup(ft_itoa(getpid()));
+	mt_txcharacter((unsigned long)STX, server_pid);
+	while (*message)
+	{
+		mt_txcharacter((unsigned long)*message, server_pid);
+		message++;
+	}
+	mt_txcharacter((unsigned long)ETX, server_pid);
+	while (1)
+	{
+		/* code */
 	}
 	return (EXIT_SUCCESS);
 }
@@ -42,19 +64,17 @@ int main(int argc, char const *argv[])
  *
  * @note SIG_BIT0 is SIGUSR1 and SIG_BIT1 is SIGUSR2
  */
-void	mt_txcharacter(const char c, int pid)
+void	mt_txcharacter(unsigned long c, int pid)
 {
 	short	bits_remaining;
-	short	bit;
 
-	bits_remaining = sizeof(int) * BYTE_SIZE;
+	bits_remaining = sizeof(unsigned long) * BYTE_SIZE;
 	while (--bits_remaining >= 0)
 	{
-		bit = c >> bits_remaining & 1;
-		if (bit == 1)
+		if (c >> bits_remaining & 1)
 			kill(pid, SIG_BIT1);
 		else
 			kill(pid, SIG_BIT0);
-		usleep(100);
+		usleep(200);
 	}
 }

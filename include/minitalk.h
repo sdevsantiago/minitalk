@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:44:01 by sede-san          #+#    #+#             */
-/*   Updated: 2025/04/27 16:57:14 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/04/29 21:06:00 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,12 @@
 
 # define BYTE_SIZE 8
 
+// Server signals
 # define SIG_BIT0 SIGUSR1
 # define SIG_BIT1 SIGUSR2
 
-# define SLEEP_TIME 42/1000
+// Client signals
+# define SIG_ACK SIGUSR1
+# define SIG_MSGOK SIGUSR2
 
 #endif

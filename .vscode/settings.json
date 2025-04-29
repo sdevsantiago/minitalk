@@ -8,6 +8,8 @@
 		"sigset_t.h": "c",
 		"__sigset_t.h": "c",
 		"client.h": "c",
-		"libft.h": "c"
+		"libft.h": "c",
+		"sigaction.h": "c",
+		"ft_printf.h": "c"
 	}
 }

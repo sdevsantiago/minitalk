@@ -6,33 +6,28 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:33:10 by sede-san          #+#    #+#             */
-/*   Updated: 2025/04/27 23:02:10 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/04/29 21:06:45 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minitalk.h"
 
-void mt_msghandler(int signum);
+void mt_msghandler(int signum, siginfo_t *info, void *ptr);
 
 int main(void)
 {
 	struct sigaction msghandler;
 
-	msghandler.sa_handler = mt_msghandler;
-	msghandler.sa_flags = 0;
+	msghandler.sa_sigaction = mt_msghandler;
+	msghandler.sa_flags = SA_SIGINFO;
 	sigemptyset(&msghandler.sa_mask);
-	int pid = getpid();
-	ft_printf("Server started with "UNDERLINE"PID"NO_UNDERLINE" %d\n", pid);
+	sigaction(SIG_BIT0, &msghandler, NULL);
+	sigaction(SIG_BIT1, &msghandler, NULL);
+	ft_putstr("Server started with "UNDERLINE"PID"NO_UNDERLINE" ");
+	ft_putnbr(getpid());
+	ft_putchar('\n');
 	while (1)
 	{
-		if (sigaction(SIG_BIT0, &msghandler, NULL) == -1 ||
-			sigaction(SIG_BIT1, &msghandler, NULL) == -1)
-		{
-			ft_putendl_fd("ERROR: An error ocurred, shutting down",
-				STDERR_FILENO);
-			exit(EXIT_FAILURE);
-		}
-		sleep(2);
 	}
 	return (EXIT_SUCCESS);
 }
@@ -40,54 +35,32 @@ int main(void)
 /**
  * @brief Handles transmission signals
  *
- * @note SIG_BIT0 is SIGUSR1 and SIG_BIT1 is SIGUSR2
+ * @attention ptr is not used in this function.
+ * @note `SIG_BIT0` is `SIGUSR1` and `SIG_BIT1` is `SIGUSR2`
  */
-void mt_msghandler(int signum)
+void mt_msghandler(int signum, siginfo_t *info, void *ptr)
 {
 	static char	character_received;
 	static int	bits_remaining;
-	static int	msg_printed;
-	static int	client_pid;
 
+	(void)ptr;
 	if (bits_remaining <= 0)
-		bits_remaining = sizeof(unsigned long) * BYTE_SIZE;
+		bits_remaining = BYTE_SIZE;
 	if (signum == SIG_BIT0)
 		character_received = character_received << 1;
 	else
-		character_received = (character_received << 1) + 1;
+		character_received = (character_received << 1) | 1;
+	kill(info->si_pid, SIG_ACK);
 	if (--bits_remaining == 0)
 	{
-		if (!msg_printed)
+		if (character_received == '\0')
 		{
-			if (character_received == STX)
-				ft_putstr("Message: [");
-			else if (character_received == ETX)
-			{
-				ft_putendl("]");
-				msg_printed = 1;
-			}
-			else
-				ft_putchar(character_received);
+			ft_putchar('\n');
+			ft_printf("PID: %d\n", info->si_pid);
+			kill(info->si_pid, SIG_MSGOK);
 		}
 		else
-		{
-			if (character_received == STX)
-			{
-				ft_putstr("PID: [");
-				client_pid = 0;
-			}
-			else if (character_received == ETX)
-			{
-				ft_putendl("]");
-				msg_printed = 0;
-				kill(client_pid, SIGUSR2);
-			}
-			else
-			{
-				ft_putchar(character_received);
-				client_pid = client_pid * 10 + ft_atoi(&character_received);
-			}
-		}
-
+			ft_putchar(character_received);
+		character_received = 0;
 	}
 }

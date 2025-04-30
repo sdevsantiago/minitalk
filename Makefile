@@ -6,7 +6,7 @@
 #    By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 21:23:43 by sede-san          #+#    #+#              #
-#    Updated: 2025/04/30 13:47:26 by sede-san         ###   ########.fr        #
+#    Updated: 2025/04/30 20:36:04 by sede-san         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,8 @@ SERVER_OBJ = $(SERVER_SRC:.c=.o)
 
 CLIENT_OBJ = $(CLIENT_SRC:.c=.o)
 
+UTILS_OBJ = $(UTILS_SRC:.c=.o)
+
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
@@ -49,15 +51,24 @@ SERVER_SRC = \
 CLIENT_SRC = \
 	$(SRC_PATH)/client.c
 
+UTILS_PATH = $(SRC_PATH)/utils
+
+UTILS_SRC = \
+	$(UTILS_PATH)/ft_gnl_strjoin.c	\
+	$(UTILS_PATH)/mt_free.c			\
+	$(UTILS_PATH)/mt_new.c
+
 # ********************************** Rules *********************************** #
 
-all: libft ft_printf server client
-	$(CC) $(CFLAGS) $(SERVER_OBJ) $(LIBFT) $(LIBFTPRINTF) -o $(SERVER)
+all: libft ft_printf utils server client
+	$(CC) $(CFLAGS) $(SERVER_OBJ) $(UTILS_OBJ) $(LIBFT) $(LIBFTPRINTF) -o $(SERVER)
 	$(CC) $(CFLAGS) $(CLIENT_OBJ) $(LIBFT) $(LIBFTPRINTF) -o $(CLIENT)
 
 server: $(SERVER_OBJ)
 
 client: $(CLIENT_OBJ)
+
+utils: $(UTILS_OBJ)
 
 clean:
 	if [ -d $(LIBFT_PATH) ]; then \

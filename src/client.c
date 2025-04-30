@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:33:07 by sede-san          #+#    #+#             */
-/*   Updated: 2025/04/30 18:48:52 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/04/30 19:09:37 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	_continue(int signum);
 
 int	main(int argc, char const *argv[])
 {
-	int	server_pid;
+	__pid_t	server_pid;
 
 	if (argc < 3)
 		return (ft_putstr_fd("ERROR: Not enough arguments\n", STDERR_FILENO),

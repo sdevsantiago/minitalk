@@ -1,12 +1,9 @@
+server
+client
+
 # 42 libraries
 lib/Libft
 lib/ft_printf
 
-server
-client
-
 # C
-.o
-.a
-.out
-.gch
+*.o

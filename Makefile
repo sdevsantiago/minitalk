@@ -6,7 +6,7 @@
 #    By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 21:23:43 by sede-san          #+#    #+#              #
-#    Updated: 2025/04/27 22:54:21 by sede-san         ###   ########.fr        #
+#    Updated: 2025/04/30 13:47:26 by sede-san         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,15 +43,11 @@ CLIENT_OBJ = $(CLIENT_SRC:.c=.o)
 
 SRC_PATH = src
 
-SERVER_PATH = $(SRC_PATH)/server
-
 SERVER_SRC = \
-	$(SERVER_PATH)/server.c
-
-CLIENT_PATH = $(SRC_PATH)/client
+	$(SRC_PATH)/server.c
 
 CLIENT_SRC = \
-	$(CLIENT_PATH)/client.c
+	$(SRC_PATH)/client.c
 
 # ********************************** Rules *********************************** #
 

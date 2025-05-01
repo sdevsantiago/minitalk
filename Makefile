@@ -6,7 +6,7 @@
 #    By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 21:23:43 by sede-san          #+#    #+#              #
-#    Updated: 2025/05/01 01:17:46 by sede-san         ###   ########.fr        #
+#    Updated: 2025/05/01 03:27:58 by sede-san         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,6 +78,7 @@ clean:
 	fi
 	rm -f $(SERVER_OBJ)
 	rm -f $(CLIENT_OBJ)
+	rm -f $(UTILS_OBJ)
 
 fclean: clean
 	rm -rf $(LIB_PATH)

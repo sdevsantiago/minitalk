@@ -6,7 +6,7 @@
 #    By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/14 21:23:43 by sede-san          #+#    #+#              #
-#    Updated: 2025/04/30 20:36:04 by sede-san         ###   ########.fr        #
+#    Updated: 2025/05/01 01:17:46 by sede-san         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,6 @@ CLIENT_SRC = \
 UTILS_PATH = $(SRC_PATH)/utils
 
 UTILS_SRC = \
-	$(UTILS_PATH)/ft_gnl_strjoin.c	\
 	$(UTILS_PATH)/mt_free.c			\
 	$(UTILS_PATH)/mt_new.c
 

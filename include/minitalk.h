@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:44:01 by sede-san          #+#    #+#             */
-/*   Updated: 2025/05/01 02:13:16 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/05/01 03:27:16 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,6 @@
 # include "../lib/Libft/libft.h"
 # include "../lib/ft_printf/ft_printf.h"
 # include <signal.h>
-# include <bits/sigaction.h>
-
-# define SOH '\001'
-# define ETB '\017'
-# define STX '\002'
-# define ETX '\003'
-# define SYN '\026'
-# define ACK '\006'
-# define EOT '\004'
 
 # define BYTE_SIZE 8
 

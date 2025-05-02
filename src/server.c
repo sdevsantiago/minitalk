@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:33:10 by sede-san          #+#    #+#             */
-/*   Updated: 2025/05/01 02:40:22 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/05/02 17:03:48 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,9 @@ void	mt_msghandler(int signal, siginfo_t *signal_info, void *context)
 				mt_clientdata(current)->message,
 				mt_clientdata(current)->client_pid);
 			kill(mt_clientdata(current)->client_pid, SIG_MSGOK);
+			free(mt_clientdata(current)->message);
+			free(current);
+			current = NULL;
 		}
 		else
 		{

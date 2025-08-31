@@ -6,7 +6,7 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:33:07 by sede-san          #+#    #+#             */
-/*   Updated: 2025/05/02 20:43:27 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/08/31 12:47:57 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int	main(int argc, char const *argv[])
 	signal(SIG_MSGOK, mt_anshandler);
 	signal(SIG_ACK, _ack);
 	server_pid = ft_atoi(argv[1]);
+	if (server_pid < 1)
+		return (ft_eputendl(RED_TEXT"Error: Invalid PID"RESET), EXIT_FAILURE);
 	while (*argv[2])
 	{
 		mt_sendchar(*argv[2], server_pid);

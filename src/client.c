@@ -6,11 +6,11 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:33:07 by sede-san          #+#    #+#             */
-/*   Updated: 2025/08/31 12:47:57 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/08/31 17:39:50 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minitalk.h"
+#include "minitalk.h"
 
 /**
  * @brief Signal received by server acknowledgement.

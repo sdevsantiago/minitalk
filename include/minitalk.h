@@ -6,15 +6,15 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:44:01 by sede-san          #+#    #+#             */
-/*   Updated: 2025/05/02 20:30:52 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/08/31 17:39:59 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINITALK_H
 # define MINITALK_H
 
-# include "../lib/Libft/libft.h"
-# include "../lib/ft_printf/ft_printf.h"
+# include "libft.h"
+# include "ft_printf.h"
 # include <signal.h>
 # include <errno.h>
 

@@ -6,11 +6,11 @@
 /*   By: sede-san <sede-san@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:33:10 by sede-san          #+#    #+#             */
-/*   Updated: 2025/05/02 20:40:41 by sede-san         ###   ########.fr       */
+/*   Updated: 2025/08/31 17:39:42 by sede-san         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minitalk.h"
+#include "minitalk.h"
 
 void		mt_msghandler(int signal, siginfo_t *signal_info, void *clients);
 t_minitalk	*mt_new(__pid_t client_pid);
